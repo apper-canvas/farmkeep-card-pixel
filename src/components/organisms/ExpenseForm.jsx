@@ -49,8 +49,20 @@ const ExpenseForm = ({ expense = null, onSave, onCancel }) => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+const handleChange = (e) => {
+    // Handle both synthetic events and custom component events
+    const target = e?.target || e?.currentTarget;
+    if (!target) {
+      console.warn('ExpenseForm: handleChange called without valid target');
+      return;
+    }
+    
+    const { name, value } = target;
+    if (!name) {
+      console.warn('ExpenseForm: handleChange called without name attribute');
+      return;
+    }
+    
     setFormData(prev => ({ ...prev, [name]: value }));
     
     // Clear error when user starts typing

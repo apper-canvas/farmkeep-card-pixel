@@ -13,19 +13,19 @@ const Select = ({
   className = '',
   ...props
 }) => {
-  function handleChange(e) {
-    // Defensive check for event target
-    if (!e || !e.target) {
-      console.warn('Invalid event passed to Select handleChange');
+  const handleChange = (e) => {
+    // Ensure event target exists before destructuring
+    const target = e?.target || e?.currentTarget;
+    if (!target) {
+      console.warn('Select: handleChange called without valid target');
       return;
     }
     
-    const { value = '' } = e.target;
-    if (onChange) {
-      onChange(value);
-    }
-  }
-return (
+    const { name, value } = target;
+    onChange?.(e);
+  };
+  
+  return (
     <div className={`${className}`}>
       {/* Label positioned outside select */}
       {label && (
